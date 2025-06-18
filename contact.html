@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Us - Andhra Cuisine by Tigers Truck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact" class="active">Contact</a></li>
+            <li><a href="/menu">Menu</a></li>
+            <li><a href="/cart">Cart</a></li>
+        </ul>
+    </nav>
+
+    <section class="andhra-hero">
+        <div class="andhra-hero-content">
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you! Whether you have questions, feedback, or want to place an order, reach out to us through any of the following methods.</p>
+        </div>
+    </section>
+
+    <main style="max-width: 600px; margin: 2rem auto; padding: 0 1rem; font-family: 'Poppins', sans-serif; color: #333;">
+        <h2>Get in Touch</h2>
+        <p><strong>Address:</strong> 123 Andhra Street, Food City, India</p>
+        <p><strong>Phone:</strong> +91 98765 43210</p>
+        <p><strong>Email:</strong> contact@tigerstruck.com</p>
+
+        <h2>Send Us a Message</h2>
+        <form method="POST" action="/contact" class="form-card">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+        </form>

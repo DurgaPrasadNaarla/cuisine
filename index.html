@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Andhra Cuisine by Tigers Truck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/menu">Menu</a></li>
+            <li><a href="/cart">Cart</a></li>
+        </ul>
+    </nav>
+    <section class="andhra-hero">
+        <div class="andhra-hero-content">
+            <h1>Welcome to Andhra Cuisine by Tigers Truck</h1>
+            <p>Experience the authentic flavors of Andhra Pradesh</p>
+            <a href="/menu" class="btn btn-primary">Explore Our Menu</a>
+        </div>
+    </section>
+
+    <main>
+        <section class="featured-dishes">
+            <h2 class="section-title">Our Signature Dishes</h2>
+            <div class="dish-grid">
+                {% for dish in featured_dishes %}
+                <div class="dish-card">
+                    <div class="dish-image" style="background-image: url('{{ dish.image_url }}')"></div>
+                    <div class="dish-info">
+                        <h3>{{ dish.name }}</h3>
+                        <p>{{ dish.description }}</p>
+                        <div class="dish-footer">
+                            <span class="price">₹{{ dish.price }}</span>
+                            <button class="btn btn-sm btn-primary" onclick="addToCart('{{ dish.item_id }}')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>

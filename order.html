@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your Cart - Andhra Cuisine by Tigers Truck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <style>
+        .cart-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 1rem 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            font-family: var(--font-secondary);
+        }
+        .cart-header {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            text-align: center;
+        }
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1rem;
+        }
+        .cart-item img {
+            width: 120px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .item-info {
+            flex-grow: 1;
+        }
+        .item-name {
+            font-family: var(--font-primary);
+            font-size: 1.3rem;
+            margin: 0 0 0.3rem 0;
+            color: var(--dark-color);
+        }
+        .item-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .item-quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .quantity-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.2rem 0.6rem;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .quantity-btn:hover {
+            background-color: var(--dark-color);
+        }
+        .item-quantity {
+            font-size: 1rem;
+            color: #555;
+            min-width: 30px;
+            text-align: center;
+        }
+        .item-price {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-left: 1rem;
+            min-width: 80px;
+            text-align: right;
+        }
+        .remove-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            margin-left: 1rem;
+        }
+        .remove-btn:hover {
+            color: var(--dark-color);
+        }
+        .cart-summary {
+            margin-top: 2rem;
+            text-align: right;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        .checkout-btn {
+            display: block;
+            margin: 2rem auto 0 auto;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            text-align: center;
+            width: fit-content;
+        }
+        .checkout-btn:hover {
+            background-color: var(--dark-color);
+        }
+        .empty-cart {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #777;
+            margin-top: 3rem;
+        }
+        .clear-cart-btn {
+            background-color: #b71c1c;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            float: right;
+            transition: background-color 0.3s;
+        }
+        .clear-cart-btn:hover {
+            background-color: #7f0000;
+        }
+        .delivery-info {
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: #444;
+            font-style: italic;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/menu">Menu</a></li>
+            <li><a href="/cart" class="active">Cart</a></li>
+        </ul>
+    </nav>
+
+    <main class="cart-container">
+        {% if cart_items %}
+        <div class="cart-header">Items in your cart</div>
+        <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+        <div class="cart-items">
+            {% for item in cart_items %}
+            <div class="cart-item" data-item-id="{{ item.item_id }}">
+                <img src="{{ item.image_url }}" alt="{{ item.name }}" />
+                <div class="item-info">
+                    <h3 class="item-name">{{ item.name }}</h3>
+                    <p class="item-description">{{ item.description }}</p>
+                    <div class="item-quantity-controls">
+                        <button class="quantity-btn" onclick="updateQuantity({{ item.item_id }}, -1)">-</button>
+                        <div class="item-quantity" id="quantity-{{ item.item_id }}">{{ item.quantity }}</div>
+                        <button class="quantity-btn" onclick="updateQuantity({{ item.item_id }}, 1)">+</button>
+                    </div>
+                </div>
+                <div class="item-price">₹{{ item.price * item.quantity }}</div>
+                <button class="remove-btn" onclick="removeFromCart({{ item.item_id }})" title="Remove item">&times;</button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="cart-summary">Total: ₹{{ cart_items | sum(attribute='price', start=0) }}</div>
+        <a href="/checkout" class="checkout-btn">Proceed to Checkout</a>
+        <div class="delivery-info">* Delivery times may vary depending on your location.</div>
+        {% else %}
+        <div class="empty-cart">Your cart is empty. <a href="/menu">Browse menu</a></div>
+        {% endif %}
+    </main>
+
+    <script>
+        function removeFromCart(itemId) {
+            fetch('/remove_from_cart/' + itemId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(response => response.json())
+            .then(data => {
+                if (data.cart) {
+                    location.reload();
+                }
+            });
+        }
+
+        function updateQuantity(itemId, delta) {
+            alert("Quantity update feature coming soon!");
+        }
+
+        function clearCart() {
+            alert("Clear cart feature coming soon!");
+        }
+    </script>
+</body>
+</html>
